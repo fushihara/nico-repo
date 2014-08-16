@@ -9,7 +9,6 @@
 */
 (function(){
 	var nicorepFilter={};
-	var version=0;//1=原宿 2=ゼロ＆Ｑ
 	var localStorageKey="nicoReportFilter_chromeExtFushihara";
 	var classPrefix="nicoReportFilter_chromeExtFushihara";
 	var checkToDisplay="-check-display";
@@ -70,15 +69,8 @@
 		if(location.pathname!="/my/top" && !location.pathname.match(/^\/my\/top\/[a-z0-9]+/i) && !location.pathname.match(/^\/user\/\d+/)){
 //			console.log("ニコニコ除ニコレポ:ニコニコ動画のバージョン(原宿とかQ)判定に失敗しました");
 			return;
-		}else if(document.querySelector("#myContHead") && document.getElementById("SYS_THREADS")){//原宿
-			console.log("ニコニコ除ニコレポ:原宿モード");
-			version=1;
-			addToggleHarajuku();
-			initHarajuku();
-			setToggleArea(document.querySelector("#myContHead"));
 		}else if(document.querySelector("#nicorepo") && document. querySelector (".nicorepo")){//ゼロ＆Ｑ
 			console.log("ニコニコ除ニコレポ:Ｑモード");
-			version=2;
 			addToggleQ();
 			initQ();
 			setToggleArea(document.querySelector("#nicorepo>h3"));
@@ -134,96 +126,7 @@
 		return ret;
 	}
 	//-----各ニコレポにクラス名を追加
-	//---原宿用
 	//初期化。ノード追加時のイベントを設定し、最初からあるノードにクラス名を付ける
-	var initHarajuku=function(){
-		document.getElementById("SYS_THREADS").addEventListener("DOMNodeInserted",function(e){
-			if(e.target.nodeName!=="LI"){return false;}
-			addClassHarajuku(e.target);
-			addClassHarajukuComment(e.target);
-		});
-		var all=document. querySelectorAll("#SYS_THREADS>li");
-		for(var i=0;i<all.length;i++){
-			addClassHarajuku(all[i]);
-			addClassHarajukuComment(all[i]);
-		}
-	};
-	//li要素にQ型式のクラス名を追加する
-	var addClassHarajuku=function(target){
-		var authorHref=target.querySelector(".userThumb>a").href,userType=0;
-		if(authorHref.match(/\/user\/\d+/)){
-			userType=1;
-		}else if(authorHref.match(/\/community\/./)){
-			userType=2;
-		}else if(authorHref.match(/\/channel\/./)){
-			userType=3;
-		}else{
-			console.log("ニコニコ除ニコレポ:新パターン:ユーザー:原宿:",target);
-			return;
-		}
-		var targetHtml=target.querySelector(".report>h4");
-		var html=targetHtml.innerHTML;
-		html=html.replace(/\r|\n/g,"");
-		html=html.replace(/<span class="time">.+?<\/span>/g,"");
-		html=html.replace(/<a .+?>.+?<\/a>/g,"");
-		html=html.replace(/お知らせ (.+?) が追加されました/g,"お知らせが追加されました");
-		html=html.replace(/<.+?>/g,"");
-		html=html.replace(/ |　|\t|&nbsp;/g,"");
-		html=html.replace(/([0-9\/:]+)に生放送を予約しました。/g,"に生放送を予約しました。");
-		html=html.replace(/生放送を([0-9\/:]+)から予約しました/g,"生放送をから予約しました");
-		html=html.replace(/動画が([0-9,]+)再生を/g,"動画が再生を");
-		html=html.replace(/^.+?さんが動画をニコニ広告で宣伝しました/g,"さんが動画をニコニ広告で宣伝しました");
-		for(var i=0;i<contents.length;i++){
-			if(userType!=contents[i].userType){continue;}
-			for(var j=0;j<contents[i].harajuku.length;j++){
-				if(html.match(contents[i].harajuku[j])){
-					target.classList.add(getUserClassString(contents[i].userClass,contents[i].userType)+checkToDisplay);
-					return;
-				}
-			}
-		}
-		//デバッグ用。存在しないパターンが出てきた
-//		target.style.setProperty("background-color","gray");
-		console.log("ニコニコ除ニコレポ:新パターン:原宿:",userType,html,target);
-		target.dataset.html=html;
-	};
-	//コメント欄
-	var addClassHarajukuComment=function(target){
-		var t;
-		//レスが存在するかの判定。無かったらreturn false
-		if( target.querySelector(".report>.noRes") ){return false;}//これだけで判定出来てしまった
-		//コメントの件数を取得。表示されている件数＋他n件のコメントを見る
-		var commentCount=0;
-		if( t=target.querySelector(".report>.comment>.res>.more>span>a") ){
-			t=t.innerText.match(/他(\d+)件のコメントを見る/);
-			commentCount+=t[1]-0;
-		}
-		if( t=target.querySelectorAll(".report>.comment>.res>ul>li") ){
-			commentCount+=t.length;
-		}
-		if(commentCount==0){return false;}
-		//コメントのidを取得。urlを作るのに使う
-		var commentUrl="";
-		if( t=target.querySelector(".report>.comment>.res>ul") ){
-			t=t.id;
-			if(t=t.match(/res_list_(\d+)_1_(\d+)/)){
-				commentUrl="http://www.nicovideo.jp/nicorepo/1/"+t[1]+"/"+t[2];
-			}
-		}
-		if(commentUrl==""){return false;}
-		//<a href="" target=_blank>n件のコメント</a> を作る
-		var link;
-		if( !(t=target.querySelector(".report>h4>a.time")) ){return;}
-		link=document.createElement("a");
-		link.innerHTML=commentCount+"件のコメント";
-		link.setAttribute("href",commentUrl);
-		link.setAttribute("target","_blank");
-		link.classList.add(classPrefix+"-4-commentArea"+checkToHidden +"-inline");
-		t.parentNode. appendChild (link);
-		//クラスを追加する
-		target.querySelector(".report>.comment").classList.add(classPrefix+"-4-commentArea"+checkToDisplay);
-//		target.style.setProperty("background-color","cyan");//デバッグ
-	};
 	//---Ｑ用
 	var initQ=function(){
 		document. querySelector (".nicorepo").addEventListener("DOMNodeInserted",function(e){
@@ -509,15 +412,6 @@
 	};
 	//トグルボタンそのものを作る
 	var toggleButton;
-	var addToggleHarajuku=function(){
-		toggleButton=document.createElement("a");
-		toggleButton.href="";
-		toggleButton.innerHTML="表示フィルタリング切り替え";
-		toggleButton.dataset.nowOpen="no";
-		toggleButton.addEventListener("click",clickToggle);
-		document.querySelector("#myContHead").appendChild(toggleButton);
-//		console.log("トグルボタン原宿:",toggleButton);
-	};
 	var addToggleQ=function(){
 		toggleButton=document.createElement("a");
 		toggleButton.href="";
