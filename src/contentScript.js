@@ -189,23 +189,17 @@
 			commentCount--;
 		}
 		if(commentCount==0){return false;}
-		//コメントのidを取得。urlを作るのに使う
-		var commentUrl="";
-		if( t=target.querySelector(".log-content>.log-footer>.log-footer-date") ){
-			commentUrl=t.href;
-		}
-		if(commentUrl==""){return false;}
 		//<a href="" target=_blank>n件のコメント</a> を作る
 		var link;
-		if( !(t=target.querySelector(".log-content>.log-footer>.log-res-open-link")) ){return;}
+		if( !(t=target.querySelector(".log-content>.log-details>.log-footer>.log-footer-inner>.log-footer-date")) ){return;}
 		link=document.createElement("a");
 		link.innerHTML=commentCount+"件のコメント";
-		link.setAttribute("href",commentUrl);
+		link.setAttribute("href",t.href);
 		link.setAttribute("target","_blank");
 		link.classList.add(classPrefix+"-4-commentArea"+checkToHidden +"-inline");
 		t.parentNode. insertBefore (link,t);
 		//非表示のクラスを追加する
-		target.querySelector(".log-content>.log-footer>.log-res-open-link").classList.add(classPrefix+"-4-commentArea"+checkToDisplay+"-inline");
+		target.querySelector(".log-content>.log-details>.log-footer>.log-footer-inner>.log-footer-date").classList.add(classPrefix+"-4-commentArea"+checkToDisplay+"-inline");
 		target.querySelector(".log-content>.log-reslist").classList.add(classPrefix+"-4-commentArea"+checkToDisplay);
 //		target.style.setProperty("background-color","cyan");//デバッグ
 	};
