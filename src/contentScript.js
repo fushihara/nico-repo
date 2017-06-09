@@ -15,6 +15,13 @@
 	var contents=[];
 	//userType:1=ユーザーが 2=コミュニティが 3=企業のチャンネルが
 	var contentsAdd=function({contentId,buttonLabel,userType,normalizeText}){
+		// contentIdが重複してる場合はアラートを出す
+		let qequalIdContents = contents.filter((content)=>{
+			return content.contentId === contentId;
+		});
+		if( 0 < qequalIdContents.length){
+			alert(`contentsIdが重複しています ${contentId}`);
+		}
 		contents.push({
 			"contentId"    :contentId,
 			"buttonLabel"  :buttonLabel,
@@ -41,7 +48,7 @@
 		contentsAdd({contentId:"user-clip-illust"        ,buttonLabel:"イラストをクリップ"             ,userType:1,normalizeText:"[LINK USER]さんが イラストをクリップしました。"});
 		contentsAdd({contentId:"user-manga-favorite"     ,buttonLabel:"マンガをお気に入り登録"         ,userType:1,normalizeText:"[LINK USER]さんがマンガをお気に入りしました。"});
 		contentsAdd({contentId:"comm-nama-start"         ,buttonLabel:"生放送を開始"                   ,userType:2,normalizeText:"[LINK USER]さんが コミュニティ[LINK COMMUNITY]で生放送を開始しました。"});
-		contentsAdd({contentId:"comm-nama-start"         ,buttonLabel:"生放送を予約"                   ,userType:2,normalizeText:"[LINK USER]さんが コミュニティ[LINK COMMUNITY]でに生放送を予約しました。"});
+		contentsAdd({contentId:"comm-nama-yoyaku"        ,buttonLabel:"生放送を予約"                   ,userType:2,normalizeText:"[LINK USER]さんが コミュニティ[LINK COMMUNITY]でに生放送を予約しました。"});
 		contentsAdd({contentId:"comm-add-movie"          ,buttonLabel:"動画を追加"                     ,userType:2,normalizeText:"[LINK USER]さんが コミュニティ[LINK COMMUNITY]に動画を追加しました。"});
 		contentsAdd({contentId:"channel-nama-start"      ,buttonLabel:"生放送を開始"                   ,userType:3,normalizeText:"チャンネル[LINK CHANNEL]で生放送が開始されました。"});
 		contentsAdd({contentId:"channel-nama-yoyaku"     ,buttonLabel:"生放送を予約"                   ,userType:3,normalizeText:"チャンネル[LINK CHANNEL]でに生放送が予約されました。"});
