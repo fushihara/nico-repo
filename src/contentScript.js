@@ -40,7 +40,7 @@
 		contentsAdd({contentId:"user-count-view"         ,buttonLabel:"再生数達成"                     ,userType:1,normalizeText:"[LINK USER]さんの動画が[NUMBER]再生を達成しました。"});
 		contentsAdd({contentId:"user-ranking"            ,buttonLabel:"ランキング達成"                 ,userType:1,normalizeText:"[LINK USER]さんの動画が[NUMBER]位を達成しました。"});
 		contentsAdd({contentId:"user-nama-syokai"        ,buttonLabel:"生放送で紹介された"             ,userType:1,normalizeText:"[LINK USER]さんの動画が 生放送[LINK LIVE]で紹介されました。"});
-		contentsAdd({contentId:"user-senden"             ,buttonLabel:"宣伝をした"                     ,userType:1,normalizeText:"[LINK USER]さんが ニコニ広告で宣伝しました。[LINK UAD]"});
+		contentsAdd({contentId:"user-senden"             ,buttonLabel:"宣伝をした"                     ,userType:1,normalizeText:"[LINK USER]さんがニコニ広告しました。[LINK UAD]"});
 		contentsAdd({contentId:"user-blog-touko"         ,buttonLabel:"ブロマガを投稿"                 ,userType:1,normalizeText:"[LINK USER]さんが記事を投稿しました。"});
 		contentsAdd({contentId:"user-blog-touroku"       ,buttonLabel:"マイリストにブロマガ登録"       ,userType:1,normalizeText:"[LINK USER]さんが マイリスト[LINK MYLIST]にブロマガを登録しました。"});
 		contentsAdd({contentId:"user-stamp-get"          ,buttonLabel:"スタンプを取得"                 ,userType:1,normalizeText:"[LINK USER]さんがスタンプを取得しました。"});
@@ -136,7 +136,7 @@
 					}else if(linkTarget.hostname==="live.nicovideo.jp" && linkTarget.pathname.indexOf("/watch/")===0){
 						// http://live.nicovideo.jp/watch/lv12345?zeromypage_nicorepo
 						return "[LINK LIVE]";
-					}else if(linkTarget.hostname==="uad.nicovideo.jp" && linkTarget.pathname.indexOf("/ads/")===0){
+					}else if(linkTarget.hostname==="nicoad.nicovideo.jp" && linkTarget.pathname.indexOf("/video/")===0){
 						// http://uad.nicovideo.jp/ads/?vid=sm1234
 						return "[LINK UAD]";
 					}else{
