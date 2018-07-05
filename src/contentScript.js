@@ -136,7 +136,7 @@
 					}else if(linkTarget.hostname==="live.nicovideo.jp" && linkTarget.pathname.indexOf("/watch/")===0){
 						// http://live.nicovideo.jp/watch/lv12345?zeromypage_nicorepo
 						return "[LINK LIVE]";
-					}else if(linkTarget.hostname==="nicoad.nicovideo.jp" && linkTarget.pathname.indexOf("/video/")===0){
+					}else if(linkTarget.hostname==="nicoad.nicovideo.jp"){
 						// https://nicoad.nicovideo.jp/video/publish/sm12345?frontend_id=6&frontend_version=0
 						// https://nicoad.nicovideo.jp/live/publish/lv12345?frontend_id=6&frontend_version=0
 						return "[LINK UAD]";
