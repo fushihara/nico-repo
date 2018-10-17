@@ -8,7 +8,7 @@
 		"128":"icon128.png"
 	},
 	"content_scripts":[{
-		"matches":["http://www.nicovideo.jp/my/top","http://www.nicovideo.jp/my/top/*","http://www.nicovideo.jp/user/*"],
+		"matches":["https://www.nicovideo.jp/my/top","https://www.nicovideo.jp/my/top/*","https://www.nicovideo.jp/user/*"],
 		"js":["contentScript.js"]
 	}]
 }
