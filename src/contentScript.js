@@ -40,20 +40,23 @@
 		contentsAdd({contentId:"user-count-view"         ,buttonLabel:"再生数達成"                     ,userType:1,normalizeText:"[LINK USER]さんの動画が[NUMBER]再生を達成しました。"});
 		contentsAdd({contentId:"user-ranking"            ,buttonLabel:"ランキング達成"                 ,userType:1,normalizeText:"[LINK USER]さんの動画が[NUMBER]位を達成しました。"});
 		contentsAdd({contentId:"user-nama-syokai"        ,buttonLabel:"生放送で紹介された"             ,userType:1,normalizeText:"[LINK USER]さんの動画が 生放送[LINK LIVE]で紹介されました。"});
-		contentsAdd({contentId:"user-senden"             ,buttonLabel:"宣伝をした"                     ,userType:1,normalizeText:"[LINK USER]さんが ニコニ広告で宣伝しました。[LINK UAD]"});
+		contentsAdd({contentId:"user-senden"             ,buttonLabel:"宣伝をした"                     ,userType:1,normalizeText:"[LINK USER]さんがニコニ広告しました。[LINK NICOAD]"});
 		contentsAdd({contentId:"user-blog-touko"         ,buttonLabel:"ブロマガを投稿"                 ,userType:1,normalizeText:"[LINK USER]さんが記事を投稿しました。"});
 		contentsAdd({contentId:"user-blog-touroku"       ,buttonLabel:"マイリストにブロマガ登録"       ,userType:1,normalizeText:"[LINK USER]さんが マイリスト[LINK MYLIST]にブロマガを登録しました。"});
 		contentsAdd({contentId:"user-stamp-get"          ,buttonLabel:"スタンプを取得"                 ,userType:1,normalizeText:"[LINK USER]さんがスタンプを取得しました。"});
 		contentsAdd({contentId:"user-post-illust"        ,buttonLabel:"イラストを投稿"                 ,userType:1,normalizeText:"[LINK USER]さんがイラストを投稿しました。"});
 		contentsAdd({contentId:"user-clip-illust"        ,buttonLabel:"イラストをクリップ"             ,userType:1,normalizeText:"[LINK USER]さんが イラストをクリップしました。"});
 		contentsAdd({contentId:"user-manga-favorite"     ,buttonLabel:"マンガをお気に入り登録"         ,userType:1,normalizeText:"[LINK USER]さんがマンガをお気に入りしました。"});
+		contentsAdd({contentId:"user-3d-favorite"        ,buttonLabel:"立体をお気に入り登録"            ,userType:1,normalizeText:"[LINK USER]さんが立体をお気に入り登録しました。"});
 		contentsAdd({contentId:"comm-nama-start"         ,buttonLabel:"生放送を開始"                   ,userType:2,normalizeText:"[LINK USER]さんが コミュニティ[LINK COMMUNITY]で生放送を開始しました。"});
 		contentsAdd({contentId:"comm-nama-yoyaku"        ,buttonLabel:"生放送を予約"                   ,userType:2,normalizeText:"[LINK USER]さんが コミュニティ[LINK COMMUNITY]でに生放送を予約しました。"});
 		contentsAdd({contentId:"comm-add-movie"          ,buttonLabel:"動画を追加"                     ,userType:2,normalizeText:"[LINK USER]さんが コミュニティ[LINK COMMUNITY]に動画を追加しました。"});
+		contentsAdd({contentId:"comm-jikken-nama-start"  ,buttonLabel:"生放送(実験)を開始"             ,userType:2,normalizeText:"[LINK USER]さんが コミュニティ[LINK COMMUNITY]で生放送（実験放送）を開始しました。"});
 		contentsAdd({contentId:"channel-nama-start"      ,buttonLabel:"生放送を開始"                   ,userType:3,normalizeText:"チャンネル[LINK CHANNEL]で生放送が開始されました。"});
 		contentsAdd({contentId:"channel-nama-yoyaku"     ,buttonLabel:"生放送を予約"                   ,userType:3,normalizeText:"チャンネル[LINK CHANNEL]でに生放送が予約されました。"});
 		contentsAdd({contentId:"channel-movie-post"      ,buttonLabel:"動画を追加"                     ,userType:3,normalizeText:"チャンネル[LINK CHANNEL]に動画が追加されました。"});
 		contentsAdd({contentId:"channel-notice-add"      ,buttonLabel:"お知らせを追加"                 ,userType:3,normalizeText:"チャンネル[LINK CHANNEL]にお知らせが追加されました。"});
+		contentsAdd({contentId:"channel-kiji-add"        ,buttonLabel:"記事を追加"                     ,userType:3,normalizeText:"チャンネル[LINK CHANNEL]に記事が追加されました。"});
 		if(document.querySelector("#nicorepo") ){
 			addToggleQ();
 			initQ();
@@ -139,6 +142,9 @@
 					}else if(linkTarget.hostname==="uad.nicovideo.jp" && linkTarget.pathname.indexOf("/ads/")===0){
 						// http://uad.nicovideo.jp/ads/?vid=sm1234
 						return "[LINK UAD]";
+					}else if(linkTarget.hostname==="nicoad.nicovideo.jp" && linkTarget.pathname.indexOf("/video/publish/")===0){
+						// http://uad.nicovideo.jp/ads/?vid=sm1234
+						return "[LINK NICOAD]";
 					}else{
 						return `[LINK ${linkTarget.href}]`.trim();
 					}
@@ -400,7 +406,7 @@
 		});
 		document.querySelector("#nicorepo>h3").appendChild(toggleButton);
 	};
-	var nowVersion = 2;
+	var nowVersion = 3;
 	var checkShowUpdate = function(){
 		const version = localStorage.getItem(`${localStorageKey}-last-click-version`) || 1;
 		if( version < nowVersion ){
